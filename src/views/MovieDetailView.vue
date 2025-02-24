@@ -12,21 +12,60 @@ const state = reactive({
   movie: {},
   isLoading: true,
   isPlaying: true,
+  isSaved: false,
 });
 
 const onPlayMovie = () => {
   state.isPlaying = false;
 };
 
-onMounted(async () => {
+const checkArchivedMovie = () => {
+  const movies = JSON.parse(localStorage.getItem("movies")) || [];
+  const movieFound = movies.find((movie) => movie.imdbID === movieId);
+
+  if (movieFound) {
+    state.isSaved = true;
+  } else {
+    state.isSaved = false;
+  }
+};
+
+const onMovieArchive = () => {
+  let archivedMovies = JSON.parse(localStorage.getItem("movies")) || [];
+
+  if (state.isSaved) {
+    const updatedMovies = archivedMovies.filter((movie) => movie.imdbID !== state.movie.imdbID);
+    localStorage.setItem("movies", JSON.stringify(updatedMovies));
+    state.isSaved = false;
+  } else {
+    const archivedMovie = {
+      Title: state.movie.Title,
+      Poster: state.movie.Poster,
+      Year: state.movie.Year,
+      imdbID: state.movie.imdbID,
+      Type: state.movie.Type,
+    };
+
+    archivedMovies.push(archivedMovie);
+    localStorage.setItem("movies", JSON.stringify(archivedMovies));
+    state.isSaved = true;
+  }
+};
+
+const fetchedMovie = async () => {
   try {
-    const fetchedMovie = await fetchDetailMovie(movieId);
-    state.movie = fetchedMovie;
+    const response = await fetchDetailMovie(movieId);
+    state.movie = response;
   } catch (error) {
     console.error("Error fetching movie detail", error);
   } finally {
     state.isLoading = false;
   }
+};
+
+onMounted(async () => {
+  fetchedMovie();
+  checkArchivedMovie();
 });
 </script>
 
@@ -95,6 +134,24 @@ onMounted(async () => {
           <p>Video Quality:</p>
           <p class="border border-green-400 px-2 rounded-sm">HD</p>
         </div>
+      </div>
+      <div
+        @click="onMovieArchive"
+        :class="[
+          state.isSaved ? 'text-yellow-300' : 'text-white',
+          'w-[calc(50%-1rem)]',
+          'bg-green-600',
+          'p-3',
+          'rounded-sm',
+          'flex items-center',
+          'gap-1',
+          'justify-center',
+          'cursor-pointer',
+          'hover:text-yellow-300',
+        ]"
+      >
+        <i class="pi pi-bookmark-fill"></i>
+        <p>{{ state.isSaved ? "Archived" : "Archive" }}</p>
       </div>
       <div class="flex flex-col">
         <p class="text-green-600">

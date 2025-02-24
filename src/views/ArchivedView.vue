@@ -11,7 +11,7 @@ const state = reactive({
 const fetchedMovies = () => {
   state.isLoading = true;
   try {
-    const savedMovies = localStorage.getItem("movies") || [];
+    const savedMovies = JSON.parse(localStorage.getItem("movies") || []);
     state.movies = savedMovies;
   } catch (error) {
     console.error("Error fetching saved movies", error);
