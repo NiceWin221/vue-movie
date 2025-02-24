@@ -128,30 +128,32 @@ onMounted(async () => {
       </div>
     </div>
     <div class="flex md:flex-col md:w-[38%] gap-4 mt-5 md:mt-14">
-      <div class="w-[calc(50%-1rem)] border-4 border-green-600 rounded-sm">
-        <img :src="state.movie.Poster" alt="poster" class="w-full" />
-        <div class="flex items-center justify-between py-1 px-2 bg-green-600 text-green-800">
-          <p>Video Quality:</p>
-          <p class="border border-green-400 px-2 rounded-sm">HD</p>
+      <div class="w-[calc(50%-1rem)] flex flex-col gap-3">
+        <div class="border-4 border-green-600 rounded-sm">
+          <img :src="state.movie.Poster" alt="poster" class="w-full" />
+          <div class="flex items-center justify-between py-1 px-2 bg-green-600 text-green-800">
+            <p>Video Quality:</p>
+            <p class="border border-green-400 px-2 rounded-sm">HD</p>
+          </div>
         </div>
-      </div>
-      <div
-        @click="onMovieArchive"
-        :class="[
-          state.isSaved ? 'text-yellow-300' : 'text-white',
-          'w-[calc(50%-1rem)]',
-          'bg-green-600',
-          'p-3',
-          'rounded-sm',
-          'flex items-center',
-          'gap-1',
-          'justify-center',
-          'cursor-pointer',
-          'hover:text-yellow-300',
-        ]"
-      >
-        <i class="pi pi-bookmark-fill"></i>
-        <p>{{ state.isSaved ? "Archived" : "Archive" }}</p>
+        <div
+          @click="onMovieArchive"
+          :class="[
+            state.isSaved ? 'text-yellow-300' : 'text-white',
+            'w-full',
+            'bg-green-600',
+            'p-3',
+            'rounded-sm',
+            'flex items-center',
+            'gap-1',
+            'justify-center',
+            'cursor-pointer',
+            'hover:text-yellow-300',
+          ]"
+        >
+          <i class="pi pi-bookmark-fill"></i>
+          <p>{{ state.isSaved ? "Archived" : "Archive" }}</p>
+        </div>
       </div>
       <div class="flex flex-col">
         <p class="text-green-600">
