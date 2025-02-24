@@ -70,7 +70,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div v-if="state.isLoading" class="md:flex item-center justify-center md:mt-72">
+  <div v-if="state.isLoading" class="flex justify-center mt-60 md:flex md:mt-72">
     <PulseLoader :size="'25px'" />
   </div>
   <div v-else class="flex flex-col md:flex-row pb-4 md:gap-6 md:pl-28 md:pt-12">
